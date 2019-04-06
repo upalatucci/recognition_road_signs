@@ -8,7 +8,7 @@ def create_txt(dir,file_name):
             img=cv2.imread("./detection_train/"+dir+"/"+i)
             dim=img.shape
             print(dim)
-            result=dir+"/"+i+" 1 0 0 "+str(dim[0])+" "+str(dim[1])+"\n"
+            result="rawdata"+"/"+i+" 1 0 0 "+str(dim[0])+" "+str(dim[1])+"\n"
             txtfile.write(result)
 
 
