@@ -5,8 +5,10 @@ import cv2 as cv
 
 TEST_DIR = "test_set"
 TESTS_NAME = ["day", "fog", "night"]
-
+RESULTS_DIRECTORY = "results"
 '''
+    argomenti : xml classifier path, scale Factor, minNeighbors, minSize, maxSize
+    
     True Positive : Corretto. Segnale trovato
     True Negative: Corretto. Nessun Segnale
     False Positive: Sbagliato. Segnale non trovato
@@ -16,20 +18,25 @@ TESTS_NAME = ["day", "fog", "night"]
 def detect_road_signs(classifier, image_path, image_name, test_type):
     frame=cv.imread(image_path)
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    result = classifier.detectMultiScale(gray)
+    result = classifier.detectMultiScale(gray, scaleFactor=sys.argv[2], minNeighbors=sys.argv[3], minSize=sys.argv[4], maxSize=sys.argv[5])
 
     if(len(result)>=1):
         for i in result:
             x, y, w, h = i
-            frame = cv.rectangle(frame,(x,y),(x+w,y+h),2)
-    cv.imwrite("results/"+ test_type + "/" + image_name,frame)
+            frame = cv.rectangle(frame,(x,y),(x+w,y+h),127)
+    cv.imwrite("./results/"+ test_type + "/" + image_name,frame)
     return result
 
 def test(classifier_path):
+    if not os.path.exists(RESULTS_DIRECTORY):
+        os.mkdir(RESULTS_DIRECTORY)
     indicator_cascade = cv.CascadeClassifier(classifier_path)
 
     total_score = [0, 0, 0, 0] # true positive, true negative , false positive, false negative
     for test_type in TESTS_NAME:
+        results_test_dir = os.path.join(RESULTS_DIRECTORY, test_type)
+        if not os.path.exists(results_test_dir):
+            os.mkdir(results_test_dir)
         test_score = [0, 0, 0, 0] # true positive, true negative, false positive, false negative per il test
         directory_test = os.path.join(TEST_DIR, test_type)
         annotation_file = os.path.join(directory_test, "annotations.txt")
