@@ -6,9 +6,15 @@ def create_txt(dir,file_name):
     with open(file_name, mode='w') as txtfile:
         for i in path:
             img=cv2.imread("./detection_train/"+dir+"/"+i)
+            grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+
             dim=img.shape
-            print(dim)
             result="rawdata"+"/"+i+" 1 0 0 "+str(dim[0])+" "+str(dim[1])+"\n"
+            #equalized=0
+            #equalized = cv2.equalizeHist(grey,equalized)
+            #cv2.imshow("",equalized)
+
             txtfile.write(result)
 
 
