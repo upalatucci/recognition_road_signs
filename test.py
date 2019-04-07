@@ -7,8 +7,8 @@ TEST_DIR = "test_set"
 TESTS_NAME = ["day", "fog", "night"]
 RESULTS_DIRECTORY = "results"
 '''
-    argomenti : xml classifier path, scale Factor, minNeighbors, minSize, maxSize
-    
+    argomenti : xml classifier path, scale Factor, minNeighbors
+
     True Positive : Corretto. Segnale trovato
     True Negative: Corretto. Nessun Segnale
     False Positive: Sbagliato. Segnale non trovato
@@ -18,7 +18,7 @@ RESULTS_DIRECTORY = "results"
 def detect_road_signs(classifier, image_path, image_name, test_type):
     frame=cv.imread(image_path)
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    result = classifier.detectMultiScale(gray, scaleFactor=sys.argv[2], minNeighbors=sys.argv[3], minSize=sys.argv[4], maxSize=sys.argv[5])
+    result = classifier.detectMultiScale(gray, scaleFactor=float(sys.argv[2]), minNeighbors=int(sys.argv[3]), minSize=(20, 20), maxSize=(300, 300))
 
     if(len(result)>=1):
         for i in result:
