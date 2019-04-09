@@ -59,7 +59,7 @@ class Rectangle:
     def __repr__(self):
         return type(self).__name__+repr(tuple(self))
 
-
+'''
 x = 150
 y = 150
 w = 300
@@ -77,3 +77,4 @@ print(a.area(),b.area(),intersect.area())
 print(a.area_of_union(b))
 
 print("IOU= "+ str(intersect.area()/a.area_of_union(b)))
+'''
